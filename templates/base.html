@@ -32,7 +32,10 @@
                 </ul>
                 <div class="navbar-nav ms-auto">
                     <span class="nav-item nav-link">Welcome, {{ user.username }}</span>
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn nav-link">Logout</button>
+                    </form>
                 </div>
             </div>
             {% endif %}
