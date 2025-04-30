@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Asset{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Delete Asset</h3>
+            </div>
+            <div class="card-body">
+                <p>Are you sure you want to delete the asset "{{ object.asset_id }} - {{ object.make }} {{ object.model }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    <a href="{% url 'asset-list' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
