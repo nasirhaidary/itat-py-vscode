@@ -2,6 +2,23 @@ from django import forms
 from .models import Asset
 
 class AssetForm(forms.ModelForm):
+    asset_type = forms.ChoiceField(
+        choices=[('', 'Select asset type')] + list(Asset.ASSET_TYPE_CHOICES),
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    operating_system = forms.ChoiceField(
+        choices=[('', 'Choose operating system')] + list(Asset.OS_CHOICES),
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    status = forms.ChoiceField(
+        choices=[('', 'Select status')] + list(Asset.STATUS_CHOICES),
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    condition = forms.ChoiceField(
+        choices=[('', 'Select condition')] + list(Asset.CONDITION_CHOICES),
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+
     class Meta:
         model = Asset
         fields = '__all__'
@@ -13,10 +30,6 @@ class AssetForm(forms.ModelForm):
                 'class': 'form-control',
                 'style': 'background-color: #f8f9fa;'
             }),
-            'asset_type': forms.Select(attrs={'class': 'form-select'}),
-            'operating_system': forms.Select(attrs={'class': 'form-select'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
-            'condition': forms.Select(attrs={'class': 'form-select'}),
             'processor': forms.TextInput(attrs={'required': False}),
             'ram': forms.NumberInput(attrs={'required': False}),
             'storage': forms.NumberInput(attrs={'required': False}),

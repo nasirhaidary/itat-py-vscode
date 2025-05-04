@@ -9,7 +9,10 @@ class AssetFilter(django_filters.FilterSet):
     serial_number = django_filters.CharFilter(lookup_expr='icontains')
     location = django_filters.CharFilter(lookup_expr='icontains')
     assignee = django_filters.CharFilter(lookup_expr='icontains')
-    status = django_filters.ChoiceFilter(choices=Asset.STATUS_CHOICES)
+    status = django_filters.ChoiceFilter(
+        choices=[('', 'Select status')] + list(Asset.STATUS_CHOICES),
+        empty_label=None
+    )
     condition = django_filters.ChoiceFilter(choices=Asset.CONDITION_CHOICES)
 
     class Meta:
