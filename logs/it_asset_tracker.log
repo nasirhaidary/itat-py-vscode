@@ -356,3 +356,7 @@ INFO 2025-05-04 18:06:27,376 autoreload C:\Users\snhaidary\Downloads\IT Tracking
 INFO 2025-05-04 18:06:28,006 autoreload Watching for file changes with StatReloader
 INFO 2025-05-04 18:15:53,996 autoreload Watching for file changes with StatReloader
 INFO 2025-05-04 18:16:47,811 views Asset updated: BDAsset-006 by dentry
+INFO 2025-05-04 18:50:20,271 autoreload Watching for file changes with StatReloader
+INFO 2025-05-04 18:55:47,686 views Asset created: BDAsset-007 by snhaidary
+INFO 2025-05-04 19:02:48,625 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\dashboard\views.py changed, reloading.
+INFO 2025-05-04 19:02:49,395 autoreload Watching for file changes with StatReloader

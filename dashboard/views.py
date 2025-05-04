@@ -29,6 +29,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         ).order_by('-count')
         
         # Recent assets (last 5)
-        context['recent_assets'] = Asset.objects.all().order_by('-registration_date')[:5]
+        context['recent_assets'] = Asset.objects.all().order_by('-registration_date')[:3]
         
         return context
