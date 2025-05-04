@@ -10,8 +10,8 @@ class AssetForm(forms.ModelForm):
             'notes': forms.Textarea(attrs={'rows': 3}),
             'asset_id': forms.TextInput(attrs={
                 'readonly': 'readonly',
-                'class': 'form-control-plaintext',
-                'placeholder': 'Will be auto-generated'
+                'class': 'form-control',
+                'style': 'background-color: #f8f9fa;'
             }),
             'asset_type': forms.Select(attrs={'class': 'form-select'}),
             'operating_system': forms.Select(attrs={'class': 'form-select'}),
@@ -25,7 +25,19 @@ class AssetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.instance.pk:  # If this is a new asset
-            self.fields['asset_id'].required = False  # Don't require asset_id for new assets
+            self.fields['asset_id'].required = False
+            
+            # Generate the next asset ID
+            last_asset = Asset.objects.order_by('-asset_id').first()
+            if last_asset and last_asset.asset_id.startswith('BDAsset-'):
+                last_number = int(last_asset.asset_id.split('-')[1])
+                new_number = last_number + 1
+            else:
+                new_number = 1
+            next_asset_id = f'BDAsset-{new_number:03d}'
+            
+            # Set the initial value for the asset_id field
+            self.fields['asset_id'].initial = next_asset_id
         
         # Make processor, RAM, and storage optional
         self.fields['processor'].required = False

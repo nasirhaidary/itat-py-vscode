@@ -11,9 +11,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         
         # Get asset statistics
         context['total_assets'] = Asset.objects.count()
-        context['active_assets'] = Asset.objects.filter(status='ACTIVE').count()
-        context['maintenance_assets'] = Asset.objects.filter(status='MAINTENANCE').count()
-        context['inactive_assets'] = Asset.objects.filter(status='INACTIVE').count()
+        context['available_assets'] = Asset.objects.filter(status='AVAILABLE').count()
+        context['assigned_assets'] = Asset.objects.filter(status='ASSIGNED').count()
+        context['under_maintenance_assets'] = Asset.objects.filter(
+            Q(status='IN_REPAIR') | Q(status='UNDER_MAINTENANCE')
+        ).count()
+        context['retired_assets'] = Asset.objects.filter(status='RETIRED').count()
         
         # Asset distribution by type
         context['asset_types'] = Asset.objects.values('asset_type').annotate(
@@ -24,11 +27,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['locations'] = Asset.objects.values('location').annotate(
             count=Count('id')
         ).order_by('-count')
-        
-        # Asset condition summary
-        context['conditions'] = Asset.objects.values('condition').annotate(
-            count=Count('id')
-        ).order_by('condition')
         
         # Recent assets (last 5)
         context['recent_assets'] = Asset.objects.all().order_by('-registration_date')[:5]
