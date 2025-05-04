@@ -7,7 +7,6 @@ class Asset(models.Model):
         ('ASSIGNED', 'Assigned'),
         ('AVAILABLE', 'Available'),
         ('IN_REPAIR', 'In-repair'),
-        ('UNDER_MAINTENANCE', 'Under-maintenance'),
         ('RETIRED', 'Retired'),
     ]
     

@@ -54,7 +54,7 @@
                         <td>{{ asset.asset_type }}</td>
                         <td>{{ asset.make }} {{ asset.model }}</td>
                         <td>
-                            <span class="badge {% if asset.status == 'AVAILABLE' %}bg-primary{% elif asset.status == 'ASSIGNED' %}bg-success{% elif asset.status == 'IN_REPAIR' or asset.status == 'UNDER_MAINTENANCE' %}bg-warning text-dark{% elif asset.status == 'RETIRED' %} text-white{% else %}bg-danger{% endif %}" {% if asset.status == 'RETIRED' %}style="background-color: #ffcccc;"{% endif %}>
+                            <span class="badge {% if asset.status == 'AVAILABLE' %}bg-primary{% elif asset.status == 'ASSIGNED' %}bg-success{% elif asset.status == 'IN_REPAIR' %} text-white{% elif asset.status == 'RETIRED' %} text-white{% else %}bg-danger{% endif %}" {% if asset.status == 'RETIRED' %}style="background-color: #BF1010;"{% elif asset.status == 'IN_REPAIR' %}style="background-color: #FF8C00;"{% endif %}>
                                 {{ asset.get_status_display }}
                             </span>
                         </td>

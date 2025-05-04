@@ -35,7 +35,7 @@
                                 <td>{{ asset.asset_type }}</td>
                                 <td>{{ asset.make }} {{ asset.model }}</td>
                                 <td>
-                                    <span class="badge {% if asset.status == 'AVAILABLE' %}bg-primary{% elif asset.status == 'ASSIGNED' %}bg-success{% elif asset.status == 'IN_REPAIR' or asset.status == 'UNDER_MAINTENANCE' %}bg-warning text-dark{% elif asset.status == 'RETIRED' %} text-white{% else %}bg-danger{% endif %}" {% if asset.status == 'RETIRED' %}style="background-color: #ffcccc;"{% endif %}>
+                                    <span class="badge {% if asset.status == 'AVAILABLE' %}bg-primary{% elif asset.status == 'ASSIGNED' %}bg-success{% elif asset.status == 'IN_REPAIR' %} text-white{% elif asset.status == 'RETIRED' %} text-white{% else %}bg-danger{% endif %}" {% if asset.status == 'RETIRED' %}style="background-color: #BF1010;"{% elif asset.status == 'IN_REPAIR' %}style="background-color: #FF8C00;"{% endif %}>
                                         {{ asset.get_status_display }}
                                     </span>
                                 </td>
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="col mb-3">
-        <div class="card bg-warning text-dark">
+        <div class="card text-white" style="background-color: #FF8C00;">
             <div class="card-body">
                 <h5 class="card-title">Maintenance</h5>
                 <h2 class="card-text">{{ under_maintenance_assets }}</h2>
@@ -86,7 +86,7 @@
         </div>
     </div>
     <div class="col mb-3">
-        <div class="card text-white" style="background-color: #ffcccc;">
+        <div class="card text-white" style="background-color: #BF1010;">
             <div class="card-body">
                 <h5 class="card-title">Retired</h5>
                 <h2 class="card-text">{{ retired_assets }}</h2>

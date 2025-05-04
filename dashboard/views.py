@@ -14,7 +14,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['available_assets'] = Asset.objects.filter(status='AVAILABLE').count()
         context['assigned_assets'] = Asset.objects.filter(status='ASSIGNED').count()
         context['under_maintenance_assets'] = Asset.objects.filter(
-            Q(status='IN_REPAIR') | Q(status='UNDER_MAINTENANCE')
+            status='IN_REPAIR'
         ).count()
         context['retired_assets'] = Asset.objects.filter(status='RETIRED').count()
         
