@@ -65,6 +65,7 @@
                         <td>{{ asset.get_ram_display }}</td>
                         <td>{{ asset.get_storage_display }}</td>
                         <td>
+                            <a href="{% url 'asset-detail' asset.pk %}" class="btn btn-sm btn-outline-info">View</a>
                             <a href="{% url 'asset-update' asset.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
                             <a href="{% url 'asset-delete' asset.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
                         </td>

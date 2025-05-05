@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
@@ -61,3 +61,8 @@ class AssetDeleteView(LoginRequiredMixin, DeleteView):
         logger.info(f'Asset deleted: {asset.asset_id} by {request.user}')
         messages.success(request, 'Asset deleted successfully.')
         return super().delete(request, *args, **kwargs)
+
+class AssetDetailView(LoginRequiredMixin, DetailView):
+    model = Asset
+    template_name = 'assets/asset_detail.html'
+    context_object_name = 'asset'
