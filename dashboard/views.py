@@ -27,6 +27,46 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['locations'] = Asset.objects.values('location').annotate(
             count=Count('id')
         ).order_by('-count')
+
+        # Asset distribution by make
+        context['makes'] = Asset.objects.values('make').annotate(
+            count=Count('id')
+        ).order_by('-count')
+        
+        # Asset distribution by operating system with display values
+        operating_systems = Asset.objects.values('operating_system').annotate(
+            count=Count('id')
+        ).order_by('-count')
+        
+        # Add display values for operating systems
+        for os in operating_systems:
+            for choice in Asset.OS_CHOICES:
+                if choice[0] == os['operating_system']:
+                    os['display_name'] = choice[1]
+                    break
+        context['operating_systems'] = operating_systems
+        
+        # Asset distribution by condition with display values
+        conditions = Asset.objects.values('condition').annotate(
+            count=Count('id')
+        ).order_by('-count')
+        
+        # Add display values for conditions
+        for condition in conditions:
+            for choice in Asset.CONDITION_CHOICES:
+                if choice[0] == condition['condition']:
+                    condition['display_name'] = choice[1]
+                    break
+        context['conditions'] = conditions
+        
+        # Asset distribution by assignee (excluding unassigned)
+        context['assignees'] = Asset.objects.exclude(
+            assignee__isnull=True
+        ).exclude(
+            assignee__exact=''
+        ).values('assignee').annotate(
+            count=Count('id')
+        ).order_by('-count')
         
         # Recent assets (last 5)
         context['recent_assets'] = Asset.objects.all().order_by('-registration_date')[:3]

@@ -21,11 +21,11 @@ The **IT Asset Tracking System** is a tool designed to streamline the management
     ```
 3. Install dependencies:
     ```bash
-    npm install
+    pip install django
     ```
 4. Start the application:
     ```bash
-    npm start
+    python manage.py runserver
     ```
 
 ## Usage
