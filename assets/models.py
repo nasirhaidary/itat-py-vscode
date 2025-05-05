@@ -47,6 +47,12 @@ class Asset(models.Model):
         ('OTHER', 'Other'),
     ]
 
+    UNIT_CHOICES = [
+        ('MB', 'MB'),
+        ('GB', 'GB'),
+        ('TB', 'TB'),
+    ]
+
     registration_date = models.DateTimeField(default=timezone.now)
     asset_id = models.CharField(max_length=50, unique=True)
     asset_type = models.CharField(max_length=100, choices=ASSET_TYPE_CHOICES)
@@ -56,7 +62,9 @@ class Asset(models.Model):
     operating_system = models.CharField(max_length=100, choices=OS_CHOICES)
     processor = models.CharField(max_length=100, blank=True)
     ram = models.IntegerField(validators=[MinValueValidator(0)], blank=True, null=True)
+    ram_unit = models.CharField(max_length=2, choices=UNIT_CHOICES, default='GB')
     storage = models.IntegerField(validators=[MinValueValidator(0)], blank=True, null=True)
+    storage_unit = models.CharField(max_length=2, choices=UNIT_CHOICES, default='GB')
     location = models.CharField(max_length=200)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='AVAILABLE')
     assignee = models.EmailField(blank=True, null=True)  # Made optional
@@ -81,3 +89,13 @@ class Asset(models.Model):
             # Generate the new asset ID
             self.asset_id = f'BDAsset-{new_number:03d}'
         super().save(*args, **kwargs)
+
+    def get_ram_display(self):
+        if self.ram:
+            return f"{self.ram} {self.ram_unit}"
+        return "-"
+
+    def get_storage_display(self):
+        if self.storage:
+            return f"{self.storage} {self.storage_unit}"
+        return "-"

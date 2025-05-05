@@ -18,6 +18,16 @@ class AssetForm(forms.ModelForm):
         choices=[('', 'Select condition')] + list(Asset.CONDITION_CHOICES),
         widget=forms.Select(attrs={'class': 'form-select'})
     )
+    ram_unit = forms.ChoiceField(
+        choices=Asset.UNIT_CHOICES,
+        initial='GB',
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    storage_unit = forms.ChoiceField(
+        choices=Asset.UNIT_CHOICES,
+        initial='GB',
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
 
     class Meta:
         model = Asset
@@ -31,8 +41,18 @@ class AssetForm(forms.ModelForm):
                 'style': 'background-color: #f8f9fa;'
             }),
             'processor': forms.TextInput(attrs={'required': False}),
-            'ram': forms.NumberInput(attrs={'required': False}),
-            'storage': forms.NumberInput(attrs={'required': False}),
+            'ram': forms.NumberInput(attrs={
+                'required': False,
+                'class': 'form-control',
+                'min': '0',
+                'placeholder': 'Enter size'
+            }),
+            'storage': forms.NumberInput(attrs={
+                'required': False,
+                'class': 'form-control',
+                'min': '0',
+                'placeholder': 'Enter size'
+            }),
         }
 
     def __init__(self, *args, **kwargs):

@@ -383,3 +383,20 @@ INFO 2025-05-04 22:51:31,610 autoreload Watching for file changes with StatReloa
 INFO 2025-05-04 22:52:16,806 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\filters.py changed, reloading.
 INFO 2025-05-04 22:52:17,414 autoreload Watching for file changes with StatReloader
 INFO 2025-05-04 22:53:39,948 views Asset created: BDAsset-009 by snhaidary
+INFO 2025-05-05 11:18:34,911 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-05 11:18:43,032 log Not Found: /favicon.ico
+INFO 2025-05-05 11:26:38,238 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:54:17,883 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\models.py changed, reloading.
+INFO 2025-05-05 12:54:19,440 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:54:49,317 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\forms.py changed, reloading.
+INFO 2025-05-05 12:54:49,921 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:56:02,456 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\forms.py changed, reloading.
+INFO 2025-05-05 12:56:03,137 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:57:32,955 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\models.py changed, reloading.
+INFO 2025-05-05 12:57:33,561 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:58:37,984 autoreload C:\Users\snhaidary\Downloads\IT Tracking System\assets\models.py changed, reloading.
+INFO 2025-05-05 12:58:38,595 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 12:59:37,234 views Asset updated: BDAsset-008 by snhaidary
+INFO 2025-05-05 12:59:58,380 views Asset updated: BDAsset-007 by snhaidary
+INFO 2025-05-05 13:00:12,721 views Asset updated: BDAsset-006 by snhaidary
+INFO 2025-05-05 13:00:34,782 views Asset updated: BDAsset-005 by snhaidary

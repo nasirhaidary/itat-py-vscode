@@ -22,10 +22,38 @@
                             {{ form.serial_number|as_crispy_field }}
                             {{ form.operating_system|as_crispy_field }}
                             {{ form.processor|as_crispy_field }}
-                            {{ form.ram|as_crispy_field }}
+                            
+                            <!-- RAM field group -->
+                            <div class="form-group">
+                                <label for="{{ form.ram.id_for_label }}">RAM</label>
+                                <div class="input-group">
+                                    {{ form.ram }}
+                                    {{ form.ram_unit }}
+                                    {% if form.ram.errors %}
+                                        <div class="invalid-feedback">{{ form.ram.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                {% if form.ram.help_text %}
+                                    <small class="form-text text-muted">{{ form.ram.help_text }}</small>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            {{ form.storage|as_crispy_field }}
+                            <!-- Storage field group -->
+                            <div class="form-group">
+                                <label for="{{ form.storage.id_for_label }}">Storage</label>
+                                <div class="input-group">
+                                    {{ form.storage }}
+                                    {{ form.storage_unit }}
+                                    {% if form.storage.errors %}
+                                        <div class="invalid-feedback">{{ form.storage.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                {% if form.storage.help_text %}
+                                    <small class="form-text text-muted">{{ form.storage.help_text }}</small>
+                                {% endif %}
+                            </div>
+                            
                             {{ form.location|as_crispy_field }}
                             {{ form.status|as_crispy_field }}
                             {{ form.assignee|as_crispy_field }}
