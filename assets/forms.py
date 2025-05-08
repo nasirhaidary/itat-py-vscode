@@ -1,5 +1,5 @@
 from django import forms
-from .models import Asset
+from .models import Asset, AssetCheckout, AssetMovement
 
 class AssetForm(forms.ModelForm):
     asset_type = forms.ChoiceField(
@@ -88,3 +88,27 @@ class AssetForm(forms.ModelForm):
         if storage and storage < 0:
             raise forms.ValidationError("Storage cannot be negative")
         return storage
+
+class AssetCheckoutForm(forms.ModelForm):
+    class Meta:
+        model = AssetCheckout
+        fields = ['expected_return_date', 'notes']
+        widgets = {
+            'expected_return_date': forms.DateTimeInput(
+                attrs={'type': 'datetime-local', 'class': 'form-control'}
+            ),
+            'notes': forms.Textarea(
+                attrs={'rows': 3, 'class': 'form-control'}
+            ),
+        }
+
+class AssetMovementForm(forms.ModelForm):
+    class Meta:
+        model = AssetMovement
+        fields = ['to_location', 'reason']
+        widgets = {
+            'to_location': forms.TextInput(attrs={'class': 'form-control'}),
+            'reason': forms.Textarea(
+                attrs={'rows': 3, 'class': 'form-control'}
+            ),
+        }

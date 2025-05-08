@@ -1,7 +1,9 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
-from assets.models import Asset
+from assets.models import Asset, AssetCheckout
+from django.utils import timezone
+from django.shortcuts import render
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/dashboard.html'
@@ -70,5 +72,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         
         # Recent assets (last 5)
         context['recent_assets'] = Asset.objects.all().order_by('-registration_date')[:3]
+        
+        # Get pending returns and overdue assets
+        now = timezone.now()
+        context['pending_returns'] = AssetCheckout.objects.filter(
+            status='CHECKED_OUT',
+            expected_return_date__gt=now
+        ).order_by('expected_return_date')[:5]
+        
+        context['overdue_assets'] = AssetCheckout.objects.filter(
+            status='CHECKED_OUT',
+            expected_return_date__lt=now,
+            actual_return_date__isnull=True
+        ).order_by('expected_return_date')
+        
+        context['overdue_count'] = context['overdue_assets'].count()
         
         return context

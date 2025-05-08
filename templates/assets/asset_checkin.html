@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Check In Asset{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Check In Asset</h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5>Checkout Details</h5>
+                    <table class="table">
+                        <tr>
+                            <th>Asset:</th>
+                            <td>{{ checkout.asset.asset_id }} - {{ checkout.asset.make }} {{ checkout.asset.model }}</td>
+                        </tr>
+                        <tr>
+                            <th>Checked Out By:</th>
+                            <td>{{ checkout.checked_out_by }}</td>
+                        </tr>
+                        <tr>
+                            <th>Checkout Date:</th>
+                            <td>{{ checkout.checked_out_date|date:"F d, Y H:i" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Expected Return:</th>
+                            <td>{{ checkout.expected_return_date|date:"F d, Y H:i" }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="alert alert-info">
+                        Are you sure you want to check in this asset?
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-success">Confirm Check In</button>
+                        <a href="{% url 'asset-detail' checkout.asset.pk %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,10 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
+from django.contrib.auth.models import User
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Asset(models.Model):
     STATUS_CHOICES = [
@@ -99,3 +103,68 @@ class Asset(models.Model):
         if self.storage:
             return f"{self.storage} {self.storage_unit}"
         return "-"
+
+class AssetCheckout(models.Model):
+    STATUS_CHOICES = [
+        ('CHECKED_OUT', 'Checked Out'),
+        ('RETURNED', 'Returned'),
+        ('OVERDUE', 'Overdue'),
+    ]
+
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name='checkouts')
+    checked_out_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    checked_out_date = models.DateTimeField(auto_now_add=True)
+    expected_return_date = models.DateTimeField()
+    actual_return_date = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='CHECKED_OUT')
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['-checked_out_date']
+
+    def __str__(self):
+        return f"{self.asset} - {self.checked_out_by} ({self.get_status_display()})"
+        
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        
+        if is_new:
+            logger.info(
+                f'Asset {self.asset.asset_id} checked out by {self.checked_out_by}, '
+                f'expected return: {self.expected_return_date}'
+            )
+        elif self.actual_return_date and self.status == 'RETURNED':
+            logger.info(
+                f'Asset {self.asset.asset_id} returned by {self.checked_out_by} '
+                f'on {self.actual_return_date}'
+            )
+        elif self.status == 'OVERDUE':
+            logger.warning(
+                f'Asset {self.asset.asset_id} is overdue, '
+                f'was due on {self.expected_return_date}'
+            )
+
+class AssetMovement(models.Model):
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name='movements')
+    from_location = models.CharField(max_length=100)
+    to_location = models.CharField(max_length=100)
+    moved_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    movement_date = models.DateTimeField(auto_now_add=True)
+    reason = models.TextField()
+
+    class Meta:
+        ordering = ['-movement_date']
+
+    def __str__(self):
+        return f"{self.asset} moved from {self.from_location} to {self.to_location}"
+    
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        
+        if is_new:
+            logger.info(
+                f'Asset {self.asset.asset_id} moved from {self.from_location} to '
+                f'{self.to_location} by {self.moved_by}'
+            )

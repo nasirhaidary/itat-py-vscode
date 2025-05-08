@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Asset History{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Asset History - {{ asset.asset_id }}</h2>
+            <p><strong>Make/Model:</strong> {{ asset.make }} {{ asset.model }}</p>
+            <p><strong>Current Location:</strong> {{ asset.location }}</p>
+            <p><strong>Current Status:</strong> {{ asset.get_status_display }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Checkout History</h4>
+                </div>
+                <div class="card-body">
+                    {% if checkouts %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>Expected Return</th>
+                                        <th>Actual Return</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for checkout in checkouts %}
+                                    <tr>
+                                        <td>{{ checkout.checked_out_date|date:"Y-m-d H:i" }}</td>
+                                        <td>{{ checkout.checked_out_by }}</td>
+                                        <td>{{ checkout.expected_return_date|date:"Y-m-d H:i" }}</td>
+                                        <td>{{ checkout.actual_return_date|date:"Y-m-d H:i"|default:"-" }}</td>
+                                        <td>{{ checkout.get_status_display }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No checkout history available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Movement History</h4>
+                </div>
+                <div class="card-body">
+                    {% if movements %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Moved By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for movement in movements %}
+                                    <tr>
+                                        <td>{{ movement.movement_date|date:"Y-m-d H:i" }}</td>
+                                        <td>{{ movement.from_location }}</td>
+                                        <td>{{ movement.to_location }}</td>
+                                        <td>{{ movement.moved_by }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No movement history available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <a href="{% url 'asset-detail' asset.pk %}" class="btn btn-secondary">Back to Asset Details</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

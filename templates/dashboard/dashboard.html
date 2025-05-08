@@ -270,4 +270,86 @@
         </div>
     </div>
 </div>
+
+<!-- Asset Checkout Status Section -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Pending Returns</h4>
+            </div>
+            <div class="card-body">
+                {% if pending_returns %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>User</th>
+                                    <th>Expected Return</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for checkout in pending_returns %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'asset-detail' checkout.asset.pk %}">
+                                            {{ checkout.asset.asset_id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ checkout.checked_out_by }}</td>
+                                    <td>{{ checkout.expected_return_date|date:"M d, Y" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No pending returns.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4>Overdue Assets ({{ overdue_count }})</h4>
+            </div>
+            <div class="card-body">
+                {% if overdue_assets %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>User</th>
+                                    <th>Due Date</th>
+                                    <th>Days Overdue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for checkout in overdue_assets %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'asset-detail' checkout.asset.pk %}">
+                                            {{ checkout.asset.asset_id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ checkout.checked_out_by }}</td>
+                                    <td>{{ checkout.expected_return_date|date:"M d, Y" }}</td>
+                                    <td>{{ checkout.expected_return_date|timesince }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No overdue assets.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

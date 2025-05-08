@@ -3,10 +3,12 @@ from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 import logging
 
-from .models import Asset
-from .forms import AssetForm
+from .models import Asset, AssetCheckout, AssetMovement
+from .forms import AssetForm, AssetCheckoutForm, AssetMovementForm
 from .filters import AssetFilter
 
 logger = logging.getLogger(__name__)
@@ -66,3 +68,94 @@ class AssetDetailView(LoginRequiredMixin, DetailView):
     model = Asset
     template_name = 'assets/asset_detail.html'
     context_object_name = 'asset'
+
+@login_required
+def checkout_asset(request, pk):
+    asset = get_object_or_404(Asset, pk=pk)
+    
+    # Check if asset is already checked out
+    if asset.status != 'AVAILABLE':
+        messages.error(request, 'This asset is not available for checkout.')
+        return redirect('asset-detail', pk=pk)
+    
+    if request.method == 'POST':
+        form = AssetCheckoutForm(request.POST)
+        if form.is_valid():
+            checkout = form.save(commit=False)
+            checkout.asset = asset
+            checkout.checked_out_by = request.user
+            checkout.save()
+            
+            # Update asset status
+            asset.status = 'ASSIGNED'
+            asset.assignee = request.user.email
+            asset.save()
+            
+            messages.success(request, f'Asset {asset.asset_id} has been checked out successfully.')
+            return redirect('asset-detail', pk=pk)
+    else:
+        form = AssetCheckoutForm()
+    
+    return render(request, 'assets/asset_checkout.html', {
+        'form': form,
+        'asset': asset
+    })
+
+@login_required
+def checkin_asset(request, pk):
+    checkout = get_object_or_404(AssetCheckout, pk=pk, status='CHECKED_OUT')
+    asset = checkout.asset
+    
+    if request.method == 'POST':
+        checkout.actual_return_date = timezone.now()
+        checkout.status = 'RETURNED'
+        checkout.save()
+        
+        # Update asset status
+        asset.status = 'AVAILABLE'
+        asset.assignee = None
+        asset.save()
+        
+        messages.success(request, f'Asset {asset.asset_id} has been checked in successfully.')
+        return redirect('asset-detail', pk=asset.pk)
+    
+    return render(request, 'assets/asset_checkin.html', {'checkout': checkout})
+
+@login_required
+def move_asset(request, pk):
+    asset = get_object_or_404(Asset, pk=pk)
+    
+    if request.method == 'POST':
+        form = AssetMovementForm(request.POST)
+        if form.is_valid():
+            movement = form.save(commit=False)
+            movement.asset = asset
+            movement.moved_by = request.user
+            movement.from_location = asset.location
+            movement.save()
+            
+            # Update asset location
+            asset.location = movement.to_location
+            asset.save()
+            
+            messages.success(request, f'Asset {asset.asset_id} has been moved successfully.')
+            return redirect('asset-detail', pk=pk)
+    else:
+        form = AssetMovementForm()
+    
+    return render(request, 'assets/asset_movement.html', {
+        'form': form,
+        'asset': asset
+    })
+
+@login_required
+def asset_history(request, pk):
+    asset = get_object_or_404(Asset, pk=pk)
+    checkouts = asset.checkouts.all()
+    movements = asset.movements.all()
+    
+    return render(request, 'assets/asset_history.html', {
+        'asset': asset,
+        'checkouts': checkouts,
+        'movements': movements
+    })

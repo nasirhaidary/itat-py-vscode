@@ -4,82 +4,168 @@
 
 {% block content %}
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0">Asset Details</h3>
-                    <a href="{% url 'asset-list' %}" class="btn btn-secondary">Back to List</a>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5 class="card-title">Basic Information</h5>
-                            <dl class="row">
-                                <dt class="col-sm-4">Asset ID</dt>
-                                <dd class="col-sm-8">{{ asset.asset_id }}</dd>
-
-                                <dt class="col-sm-4">Type</dt>
-                                <dd class="col-sm-8">{{ asset.get_asset_type_display }}</dd>
-
-                                <dt class="col-sm-4">Make/Model</dt>
-                                <dd class="col-sm-8">{{ asset.make }} {{ asset.model }}</dd>
-
-                                <dt class="col-sm-4">Serial Number</dt>
-                                <dd class="col-sm-8">{{ asset.serial_number }}</dd>
-
-                                <dt class="col-sm-4">Status</dt>
-                                <dd class="col-sm-8">
-                                    <span class="badge {% if asset.status == 'AVAILABLE' %}bg-primary{% elif asset.status == 'ASSIGNED' %}bg-success{% elif asset.status == 'IN_REPAIR' %} text-white{% elif asset.status == 'RETIRED' %} text-white{% else %}bg-danger{% endif %}" {% if asset.status == 'RETIRED' %}style="background-color: #BF1010;"{% elif asset.status == 'IN_REPAIR' %}style="background-color: #FF8C00;"{% endif %}>
-                                        {{ asset.get_status_display }}
-                                    </span>
-                                </dd>
-
-                                <dt class="col-sm-4">Condition</dt>
-                                <dd class="col-sm-8">{{ asset.get_condition_display }}</dd>
-                            </dl>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="card-title">Technical Specifications</h5>
-                            <dl class="row">
-                                <dt class="col-sm-4">Operating System</dt>
-                                <dd class="col-sm-8">{{ asset.get_operating_system_display }}</dd>
-
-                                <dt class="col-sm-4">Processor</dt>
-                                <dd class="col-sm-8">{{ asset.processor|default:"-" }}</dd>
-
-                                <dt class="col-sm-4">RAM</dt>
-                                <dd class="col-sm-8">{{ asset.get_ram_display }}</dd>
-
-                                <dt class="col-sm-4">Storage</dt>
-                                <dd class="col-sm-8">{{ asset.get_storage_display }}</dd>
-                            </dl>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <h5 class="card-title">Assignment Information</h5>
-                            <dl class="row">
-                                <dt class="col-sm-4">Location</dt>
-                                <dd class="col-sm-8">{{ asset.location }}</dd>
-
-                                <dt class="col-sm-4">Assignee</dt>
-                                <dd class="col-sm-8">{{ asset.assignee|default:"-" }}</dd>
-
-                                <dt class="col-sm-4">Registration Date</dt>
-                                <dd class="col-sm-8">{{ asset.registration_date|date:"F d, Y H:i" }}</dd>
-                            </dl>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="card-title">Additional Information</h5>
-                            <dl class="row">
-                                <dt class="col-sm-4">Notes</dt>
-                                <dd class="col-sm-8">{{ asset.notes|default:"-"|linebreaks }}</dd>
-                            </dl>
-                        </div>
-                    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Asset Details</h2>
+                <div class="btn-group">
+                    {% if asset.status == 'AVAILABLE' %}
+                        <a href="{% url 'asset-checkout' asset.pk %}" class="btn btn-primary">Check Out</a>
+                    {% endif %}
+                    <a href="{% url 'asset-move' asset.pk %}" class="btn btn-info">Move Asset</a>
+                    <a href="{% url 'asset-history' asset.pk %}" class="btn btn-secondary">View History</a>
+                    <a href="{% url 'asset-update' asset.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'asset-delete' asset.pk %}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Basic Information</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Asset ID:</th>
+                            <td>{{ asset.asset_id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Type:</th>
+                            <td>{{ asset.get_asset_type_display }}</td>
+                        </tr>
+                        <tr>
+                            <th>Make:</th>
+                            <td>{{ asset.make }}</td>
+                        </tr>
+                        <tr>
+                            <th>Model:</th>
+                            <td>{{ asset.model }}</td>
+                        </tr>
+                        <tr>
+                            <th>Serial Number:</th>
+                            <td>{{ asset.serial_number }}</td>
+                        </tr>
+                        <tr>
+                            <th>Location:</th>
+                            <td>{{ asset.location }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status:</th>
+                            <td><span class="badge {% if asset.status == 'AVAILABLE' %}bg-success{% elif asset.status == 'ASSIGNED' %}bg-primary{% elif asset.status == 'IN_REPAIR' %}bg-warning{% else %}bg-secondary{% endif %}">
+                                {{ asset.get_status_display }}
+                            </span></td>
+                        </tr>
+                        <tr>
+                            <th>Condition:</th>
+                            <td><span class="badge {% if asset.condition == 'WORKING' %}bg-success{% elif asset.condition == 'SOFTWARE_ISSUE' or asset.condition == 'HARDWARE_ISSUE' %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ asset.get_condition_display }}
+                            </span></td>
+                        </tr>
+                        {% if asset.assignee %}
+                        <tr>
+                            <th>Assignee:</th>
+                            <td>{{ asset.assignee }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Technical Specifications</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Operating System:</th>
+                            <td>{{ asset.get_operating_system_display }}</td>
+                        </tr>
+                        {% if asset.processor %}
+                        <tr>
+                            <th>Processor:</th>
+                            <td>{{ asset.processor }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if asset.ram %}
+                        <tr>
+                            <th>RAM:</th>
+                            <td>{{ asset.get_ram_display }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if asset.storage %}
+                        <tr>
+                            <th>Storage:</th>
+                            <td>{{ asset.get_storage_display }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+
+            {% if asset.notes %}
+            <div class="card">
+                <div class="card-header">
+                    <h4>Notes</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ asset.notes|linebreaks }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if asset.checkouts.all %}
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Current/Latest Checkout</h4>
+                </div>
+                <div class="card-body">
+                    {% with latest_checkout=asset.checkouts.first %}
+                    <table class="table">
+                        <tr>
+                            <th>Checked Out By:</th>
+                            <td>{{ latest_checkout.checked_out_by }}</td>
+                        </tr>
+                        <tr>
+                            <th>Checkout Date:</th>
+                            <td>{{ latest_checkout.checked_out_date|date:"F d, Y H:i" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Expected Return:</th>
+                            <td>{{ latest_checkout.expected_return_date|date:"F d, Y H:i" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status:</th>
+                            <td>
+                                <span class="badge {% if latest_checkout.status == 'CHECKED_OUT' %}bg-primary{% elif latest_checkout.status == 'OVERDUE' %}bg-danger{% else %}bg-success{% endif %}">
+                                    {{ latest_checkout.get_status_display }}
+                                </span>
+                                {% if latest_checkout.status == 'CHECKED_OUT' %}
+                                    <a href="{% url 'asset-checkin' latest_checkout.pk %}" class="btn btn-sm btn-success ms-2">Check In</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col">
+            <a href="{% url 'asset-list' %}" class="btn btn-secondary">Back to Asset List</a>
         </div>
     </div>
 </div>

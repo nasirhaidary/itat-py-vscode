@@ -146,13 +146,18 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/it_asset_tracker.log'),
+            'filename': 'logs/it_asset_tracker.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
     },
     'loggers': {
-        '': {
-            'handlers': ['file'],
+        'assets': {
+            'handlers': ['file', 'console'],
             'level': 'INFO',
             'propagate': True,
         },

@@ -121,13 +121,15 @@ class PurchaseOrder(models.Model):
 
 These features would make the system more comprehensive and useful for enterprise-level IT asset management. Each feature should be implemented with appropriate views, templates, and URL configurations following the existing project structure.
 
-nasirhaidary: Provide a comprehensive action plan on how to implement Asset Check-in/Check-out System with the following features:
+# nasirhaidary:
+Provide a comprehensive action plan on how to implement Asset Check-in/Check-out System with the following features:
 - Track asset movement,
 - Record who checked out what and when,
 - Expected return dates,
 - History of asset,
 
-GitHub Copilot: # Asset Check-in/Check-out System Implementation Plan
+# GitHub Copilot:
+Asset Check-in/Check-out System Implementation Plan
 
 ## 1. Database Models
 
