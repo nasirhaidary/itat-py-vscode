@@ -1,0 +1,9 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+
+# ignore 'further-modules.md' file.
+further-modules.md
+
+# ignore '.env' file.
+.env
+.env.example
