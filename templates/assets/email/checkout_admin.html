@@ -1,0 +1,13 @@
+Asset Checkout Notification
+
+An asset has been checked out with the following details:
+
+Asset ID: {{ asset.asset_id }}
+Make/Model: {{ asset.make }} {{ asset.model }}
+Checked Out By: {{ user.get_full_name|default:user.username }} ({{ user.email }})
+Checkout Date: {{ checkout.checked_out_date|date:"F d, Y H:i" }}
+Expected Return Date: {{ checkout.expected_return_date|date:"F d, Y H:i" }}
+
+Notes: {{ checkout.notes|default:"None" }}
+
+This is an automated notification. You can view the full details in the IT Asset Tracking System.

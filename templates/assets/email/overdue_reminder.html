@@ -1,0 +1,15 @@
+URGENT: Overdue Asset Return Notice
+
+Dear {{ user.get_full_name|default:user.username }},
+
+This is to notify you that the following asset is OVERDUE for return:
+
+Asset ID: {{ asset.asset_id }}
+Make/Model: {{ asset.make }} {{ asset.model }}
+Original Due Date: {{ checkout.expected_return_date|date:"F d, Y H:i" }}
+Days Overdue: {{ days_overdue }}
+
+Please return this asset to the IT department IMMEDIATELY. If you have any issues preventing the return of this asset, please contact the IT department right away.
+
+Best regards,
+IT Asset Management Team

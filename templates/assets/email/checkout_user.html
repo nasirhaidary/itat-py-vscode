@@ -1,0 +1,15 @@
+Dear {{ user.get_full_name|default:user.username }},
+
+This email confirms that you have checked out the following asset:
+
+Asset ID: {{ asset.asset_id }}
+Make/Model: {{ asset.make }} {{ asset.model }}
+Checkout Date: {{ checkout.checked_out_date|date:"F d, Y H:i" }}
+Expected Return Date: {{ checkout.expected_return_date|date:"F d, Y H:i" }}
+
+Please ensure the asset is returned by the expected return date. If you need an extension, please contact the IT department.
+
+Notes: {{ checkout.notes|default:"None" }}
+
+Best regards,
+IT Asset Management Team

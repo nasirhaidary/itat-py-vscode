@@ -1,0 +1,17 @@
+ADMIN ALERT: Overdue Asset
+
+An asset is overdue for return with the following details:
+
+Asset ID: {{ asset.asset_id }}
+Make/Model: {{ asset.make }} {{ asset.model }}
+Checked Out By: {{ user.get_full_name|default:user.username }} ({{ user.email }})
+Original Due Date: {{ checkout.expected_return_date|date:"F d, Y H:i" }}
+Days Overdue: {{ days_overdue }}
+
+Current Status:
+- Location: {{ asset.location }}
+- Condition: {{ asset.get_condition_display }}
+
+Please follow up with the user regarding the return of this asset.
+
+This is an automated notification. You can view the full details in the IT Asset Tracking System.

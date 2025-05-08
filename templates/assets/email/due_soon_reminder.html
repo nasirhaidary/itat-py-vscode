@@ -1,0 +1,13 @@
+Dear {{ user.get_full_name|default:user.username }},
+
+This is a reminder that the following asset is due to be returned soon:
+
+Asset ID: {{ asset.asset_id }}
+Make/Model: {{ asset.make }} {{ asset.model }}
+Due Date: {{ checkout.expected_return_date|date:"F d, Y H:i" }}
+Days Remaining: {{ days_remaining }}
+
+Please ensure to return the asset by the due date. If you need an extension, please contact the IT department as soon as possible.
+
+Best regards,
+IT Asset Management Team

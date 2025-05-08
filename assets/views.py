@@ -10,6 +10,7 @@ import logging
 from .models import Asset, AssetCheckout, AssetMovement
 from .forms import AssetForm, AssetCheckoutForm, AssetMovementForm
 from .filters import AssetFilter
+from .utils import send_checkout_notification, send_checkin_notification
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +92,9 @@ def checkout_asset(request, pk):
             asset.assignee = request.user.email
             asset.save()
             
+            # Send email notifications
+            send_checkout_notification(checkout)
+            
             messages.success(request, f'Asset {asset.asset_id} has been checked out successfully.')
             return redirect('asset-detail', pk=pk)
     else:
@@ -115,6 +119,9 @@ def checkin_asset(request, pk):
         asset.status = 'AVAILABLE'
         asset.assignee = None
         asset.save()
+        
+        # Send email notification
+        send_checkin_notification(checkout)
         
         messages.success(request, f'Asset {asset.asset_id} has been checked in successfully.')
         return redirect('asset-detail', pk=asset.pk)
