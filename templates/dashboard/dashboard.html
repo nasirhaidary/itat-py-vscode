@@ -51,228 +51,8 @@
     </div>
 </div>
 
-<!-- Asset Statistics Cards -->
-<div class="row mb-4">
-    <div class="col mb-3">
-        <div class="card bg-secondary text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Assets</h5>
-                <h2 class="card-text">{{ total_assets }}</h2>
-            </div>
-        </div>
-    </div>
-    <div class="col mb-3">
-        <div class="card bg-primary text-white">
-            <div class="card-body">
-                <h5 class="card-title">Available</h5>
-                <h2 class="card-text">{{ available_assets }}</h2>
-            </div>
-        </div>
-    </div>
-    <div class="col mb-3">
-        <div class="card bg-success text-white">
-            <div class="card-body">
-                <h5 class="card-title">Assigned</h5>
-                <h2 class="card-text">{{ assigned_assets }}</h2>
-            </div>
-        </div>
-    </div>
-    <div class="col mb-3">
-        <div class="card text-white" style="background-color: #FF8C00;">
-            <div class="card-body">
-                <h5 class="card-title">Maintenance</h5>
-                <h2 class="card-text">{{ under_maintenance_assets }}</h2>
-            </div>
-        </div>
-    </div>
-    <div class="col mb-3">
-        <div class="card text-white" style="background-color: #BF1010;">
-            <div class="card-body">
-                <h5 class="card-title">Retired</h5>
-                <h2 class="card-text">{{ retired_assets }}</h2>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-4">
-    <!-- Asset Types Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Asset by Type</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Asset Type</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for type in asset_types %}
-                            <tr>
-                                <td>{{ type.asset_type }}</td>
-                                <td>{{ type.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Make Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Assets by Make</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Make</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for make in makes %}
-                            <tr>
-                                <td>{{ make.make }}</td>
-                                <td>{{ make.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Condition Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Assets by Condition</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Condition</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for condition in conditions %}
-                            <tr>
-                                <td>{{ condition.display_name }}</td>
-                                <td>{{ condition.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Location Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Assets by Location</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Location</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for location in locations %}
-                            <tr>
-                                <td>{{ location.location }}</td>
-                                <td>{{ location.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Operating System Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Assets by Operating System</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Operating System</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for os in operating_systems %}
-                            <tr>
-                                <td>{{ os.display_name }}</td>
-                                <td>{{ os.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Assignee Distribution -->
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Assets by Assignee</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Assignee</th>
-                                <th>Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for assignee in assignees %}
-                            <tr>
-                                <td>{{ assignee.assignee }}</td>
-                                <td>{{ assignee.count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Asset Checkout Status Section -->
-<div class="row mt-4">
+<div class="row mb-4">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -347,6 +127,228 @@
                 {% else %}
                     <p class="text-muted">No overdue assets.</p>
                 {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Asset Statistics Cards -->
+<div class="row mb-4">
+    <div class="col mb-3">
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Assets</h5>
+                <h2 class="card-text">{{ total_assets }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Available</h5>
+                <h2 class="card-text">{{ available_assets }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Assigned</h5>
+                <h2 class="card-text">{{ assigned_assets }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-3">
+        <div class="card text-white" style="background-color: #FF8C00;">
+            <div class="card-body">
+                <h5 class="card-title">Maintenance</h5>
+                <h2 class="card-text">{{ under_maintenance_assets }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-3">
+        <div class="card text-white" style="background-color: #BF1010;">
+            <div class="card-body">
+                <h5 class="card-title">Retired</h5>
+                <h2 class="card-text">{{ retired_assets }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Asset Types Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Asset by Type</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Asset Type</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for type in asset_types %}
+                            <tr>
+                                <td>{{ type.asset_type }}</td>
+                                <td>{{ type.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Make Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Assets by Make</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Make</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for make in makes %}
+                            <tr>
+                                <td>{{ make.make }}</td>
+                                <td>{{ make.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Condition Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Assets by Condition</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Condition</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for condition in conditions %}
+                            <tr>
+                                <td>{{ condition.display_name }}</td>
+                                <td>{{ condition.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Location Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Assets by Location</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for location in locations %}
+                            <tr>
+                                <td>{{ location.location }}</td>
+                                <td>{{ location.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Operating System Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Assets by Operating System</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Operating System</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for os in operating_systems %}
+                            <tr>
+                                <td>{{ os.display_name }}</td>
+                                <td>{{ os.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignee Distribution -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Assets by Assignee</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Assignee</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assignee in assignees %}
+                            <tr>
+                                <td>{{ assignee.assignee }}</td>
+                                <td>{{ assignee.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
