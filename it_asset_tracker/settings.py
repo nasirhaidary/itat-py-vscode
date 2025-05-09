@@ -133,8 +133,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'), # For static files during development (From Nasir).
 ]
+SECRET_ROOT = os.path.join(BASE_DIR, 'staticfiles') # For static files during production (From Nasir).
 
 # Logging Configuration
 LOGGING = {
