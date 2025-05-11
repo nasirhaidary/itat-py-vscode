@@ -3,7 +3,8 @@
 # Ignore 'further-modules.md' file.
 further-modules.md
 
-# Ignore '.env' file.
+# Ignore all environment files and directories.
+venv
 .env
 .env.example
 
